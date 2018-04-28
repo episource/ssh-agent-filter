@@ -110,7 +110,7 @@ string md5_hex (string const & s) {
 	md5_update(&ctx, s.size(), reinterpret_cast<uint8_t const *>(s.data()));
 	uint8_t bin[MD5_DIGEST_SIZE];
 	md5_digest(&ctx, MD5_DIGEST_SIZE, bin);
-	uint8_t hex[BASE16_ENCODE_LENGTH(MD5_DIGEST_SIZE)];
+	char hex[BASE16_ENCODE_LENGTH(MD5_DIGEST_SIZE)];
 	base16_encode_update(hex, MD5_DIGEST_SIZE, bin);
 	return {reinterpret_cast<char const *>(hex), sizeof(hex)};
 }
@@ -118,7 +118,7 @@ string md5_hex (string const & s) {
 string base64_encode (string const & s) {
 	struct base64_encode_ctx ctx;
 	base64_encode_init(&ctx);
-	uint8_t b64[BASE64_ENCODE_LENGTH(s.size())];
+	char b64[BASE64_ENCODE_LENGTH(s.size())];
 	auto len = base64_encode_update(&ctx, b64, s.size(), reinterpret_cast<uint8_t const *>(s.data()));
 	len += base64_encode_final(&ctx, b64 + len);
 	return {reinterpret_cast<char const *>(b64), len};
